@@ -34,12 +34,22 @@ const getAllService = async () => {
   return { status: http.ok_status, data: task };
 };
 
-const updateService = async (id, task) => {
+const updateService = async (data) => {
+  const { id, task } = data;
+  const taskFound = await Model.findByIdModel(id)
+
+  if (!taskFound) {
+    return {
+      status: http.unprocessable_entity_status,
+      message: "This task doesn't exist"
+    };
+  }
+
   const updatedTask = await Model.updateModel(id, task);
   return { status: http.ok_status, data: updatedTask };
 };
 
-const removeSale = async (id) => {
+const removeService = async (id) => {
   const task = await Model.findByIdModel(id);
 
   if (!task) {
@@ -58,5 +68,5 @@ module.exports = {
   findByIdService,
   getAllService,
   updateService,
-  removeSale,
+  removeService,
 };
