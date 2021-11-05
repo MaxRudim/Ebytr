@@ -4,7 +4,7 @@ const connection = require('./connection');
 const createModel = async (data) => {
   const db = await connection();
   const task = await db.collection('taskmanager')
-    .insertOne({ data });
+    .insertOne({ ...data });
   return { _id: task.insertedId, data };
 };
 
@@ -27,7 +27,7 @@ const updateModel = async (id, data) => {
 
   const db = await connection();
   await db.collection('taskmanager')
-    .updateOne({ _id: ObjectId(id) }, { $set: { data } });
+    .updateOne({ _id: ObjectId(id) }, { $set: { ...data } });
   const updatedSales = await findByIdModel(id);
   return updatedSales;
 };
